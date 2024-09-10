@@ -42,15 +42,19 @@ mixin Stats {
   void increaseStat(String stat) {
     if (_points > 0) {
       if (stat == 'health') {
+        _points--;
         _health++;
       }
       if (stat == 'attack') {
         _attack++;
+        _points--;
       }
       if (stat == 'defense') {
+        _points--;
         _defense++;
       }
       if (stat == 'skill') {
+        _points--;
         _skill++;
       }
     }

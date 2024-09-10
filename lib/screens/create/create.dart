@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/character.dart';
 import 'package:game_app/models/vocation.dart';
+import 'package:game_app/provider/character_store.dart';
 import 'package:game_app/screens/create/vocation_cart.dart';
+import 'package:game_app/screens/home/home.dart';
 import 'package:game_app/shared/styled_button.dart';
 import 'package:game_app/shared/styled_text.dart';
 import 'package:game_app/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 var uuid = const Uuid();
 
-class Create extends StatefulWidget {
-  const Create({super.key});
+class CreateScreen extends StatefulWidget {
+  const CreateScreen({super.key});
 
   @override
-  State<Create> createState() => _CreateState();
+  State<CreateScreen> createState() => _CreateScreenState();
 }
 
-class _CreateState extends State<Create> {
+class _CreateScreenState extends State<CreateScreen> {
   //this man here will take care of the text input.. otherwise. it will be so difficult to handle it.
   final _nameController = TextEditingController();
   final _sloganController = TextEditingController();
@@ -50,18 +53,51 @@ class _CreateState extends State<Create> {
     //to access the inputted text.. you shall write the name of its controller.
     //then the .text.. the rest is ez
     if (_nameController.text.trim().isEmpty) {
+      //this is our popup
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            //this is the text inside the popup.. reletavily simple
+            return AlertDialog(
+              title: const StyledHeading('fill the name.'),
+              content: const StyledText('what character that has no name ?'),
+              actions: [
+                StyledButton(
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                    },
+                    child: const StyledHeading('colse'))
+              ],
+              actionsAlignment: MainAxisAlignment.center,
+            );
+          });
       //show errors
       return;
     }
     if (_sloganController.text.trim().isEmpty) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            //this is the text inside the popup.. reletavily simple
+            return AlertDialog(
+              title: const StyledHeading('fill the slogan.'),
+              content: const StyledText('remeber to use some spicy slogan'),
+              actions: [
+                StyledButton(
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                    },
+                    child: const StyledHeading('colse'))
+              ],
+              actionsAlignment: MainAxisAlignment.center,
+            );
+          });
       //show errors
       return;
     }
-    print(_nameController.text);
-    print(_sloganController.text);
 
-//this is the thing we wanted in the first place.. show time🔥🔥
-    characters.add(Character(
+//by doing this.. we are accessing our provider
+    Provider.of<CharacterStore>(context, listen: false).addCharacter(Character(
 //we made 2 controllers for those
       name: _nameController.text.trim(),
       slogan: _sloganController.text.trim(),
@@ -70,6 +106,19 @@ class _CreateState extends State<Create> {
       // we imported Uuid so it makes an id for this
       id: uuid.v4(),
     ));
+
+//this is the thing we wanted in the first place.. show time🔥🔥 commented so we can use the function in the provider
+//     characters.add(Character(
+// //we made 2 controllers for those
+//       name: _nameController.text.trim(),
+//       slogan: _sloganController.text.trim(),
+//       //we made a good function to choose this
+//       vocation: selectedVocation,
+//       // we imported Uuid so it makes an id for this
+//       id: uuid.v4(),
+//     ));
+
+    Navigator.push(context, MaterialPageRoute(builder: (ctx) => const Home()));
   }
 
   @override

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/models/character.dart';
 import 'package:game_app/models/vocation.dart';
+import 'package:game_app/screens/profile/profile.dart';
 import 'package:game_app/shared/styled_text.dart';
 import 'package:game_app/theme.dart';
+import 'package:game_app/helpers/functions.dart';
+
 
 class CharacterCard extends StatelessWidget {
   const CharacterCard(this.character, {super.key});
@@ -33,7 +36,9 @@ class CharacterCard extends StatelessWidget {
               child: SizedBox(),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                goTo(context, Profile(character: character,));
+              },
               icon: Icon(
                 Icons.arrow_forward,
                 color: AppColors.textColor,
@@ -44,4 +49,6 @@ class CharacterCard extends StatelessWidget {
       ),
     );
   }
+
+  
 }

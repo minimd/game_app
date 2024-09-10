@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 // this is as cool as --var-color in css.. you define the colors you will use here and then you just call them
 //by App.Colors. the color you want
 class AppColors {
@@ -54,4 +53,14 @@ ThemeData primaryTheme = ThemeData(
       border: InputBorder.none,
       labelStyle: TextStyle(color: AppColors.textColor),
       prefixIconColor: AppColors.textColor),
+  // idid this on my own.. yay
+  dialogTheme:const DialogTheme().copyWith(
+    backgroundColor: AppColors.secondaryColor,
+    surfaceTintColor:Colors.transparent,
+  ),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: AppColors.secondaryColor,
+    showCloseIcon: true,
+    
+  )
 );

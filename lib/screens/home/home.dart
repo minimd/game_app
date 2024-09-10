@@ -1,10 +1,14 @@
 // import 'dart:ffi';
+import 'package:game_app/helpers/functions.dart';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/models/character.dart';
+import 'package:game_app/provider/character_store.dart';
+
+import 'package:game_app/screens/create/create.dart';
 import 'package:game_app/screens/home/character_card.dart';
 import 'package:game_app/shared/styled_button.dart';
 import 'package:game_app/shared/styled_text.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -28,17 +32,22 @@ class _HomeState extends State<Home> {
             children: [
               Expanded(
                 //list view is scrollable BTW.. column isn't
-                child: ListView.builder(
-                  //characters is a list of characters found in the file character.dart 
-                  itemCount: characters.length,
-                  itemBuilder: (_, index) {
-                    return CharacterCard(characters[index]);
-                  },
-                ),
+                //this consumer thing is for using the consumer "here"
+                child:
+                    Consumer<CharacterStore>(builder: (context, value, child) {
+                  return ListView.builder(
+                    //characters is a list of characters found in the file character.dart
+                    //put a 'value.' before your item to access it's value 
+                    itemCount: value.characters.length,
+                    itemBuilder: (_, index) {
+                      return CharacterCard(value.characters[index]);
+                    },
+                  );
+                }),
               ),
               StyledButton(
                 onPressed: () {
-                  print('chhar');
+                  goTo(context, const CreateScreen());
                 },
                 child: const StyledHeading('create New'),
               )
