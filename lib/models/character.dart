@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:game_app/models/skill.dart';
 import 'package:game_app/models/stats.dart';
 import 'package:game_app/models/vocation.dart';
@@ -44,31 +43,5 @@ class Character with Stats {
       'stats': statsMap,
       'points': points,
     };
-  }
-
-  factory Character.fromFirestore(
-      DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions? options) {
-    //get the character
-    final data = snapshot.data()!;
-
-    //make the character
-    Character character = Character(
-        name: data['name'],
-        slogan: data['slogan'],
-        vocation:
-            Vocation.values.firstWhere((v) => v.toString() == data['vocation']),
-        id: snapshot.id);
-
-    //set skills
-    for (String id in data['skills']) {
-      Skill skill = allSkills.firstWhere((element) => element.id == id);
-      character.updateSkill(skill);
-    }
-    // setisFave
-    if (data['isFav'] == true) {
-      character.toggleIsFav();
-    }
-    return character;
   }
 }
